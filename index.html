@@ -1,0 +1,135 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Tebak Ganda 😈</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            text-align: center;
+            background: linear-gradient(135deg, #6a11cb, #2575fc);
+            color: #fff;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .container {
+            width: 90%;
+            max-width: 400px;
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.2);
+            backdrop-filter: blur(5px);
+        }
+        h1 {
+            margin-bottom: 20px;
+            font-size: 24px;
+            text-shadow: 0 0 5px rgba(0,0,0,0.3);
+        }
+        #pertanyaan {
+            font-size: 18px;
+            margin-bottom: 20px;
+            background-color: rgba(255, 255, 255, 0.2);
+            padding: 15px;
+            border-radius: 10px;
+        }
+        .pilihan {
+            margin: 10px 0;
+            padding: 15px;
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .pilihan:hover {
+            background-color: rgba(255, 255, 255, 0.4);
+        }
+        #hasil {
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: bold;
+            text-shadow: 0 0 5px rgba(0,0,0,0.3);
+        }
+        select {
+            padding: 10px;
+            border-radius: 10px;
+            background-color: rgba(255, 255, 255, 0.8);
+            color: #333;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Tebak Ganda 😈</h1>
+        <select id="materi" onchange="gantiMateri()">
+            <option value="IPA">IPA</option>
+            <option value="Senirupa">Senirupa</option>
+            <option value="Penjasorkes">Penjasorkes</option>
+            <option value="Diniyah">Diniyah</option>
+        </select>
+        <div id="pertanyaan"></div>
+        <div id="pilihan"></div>
+        <div id="hasil"></div>
+    </div>
+
+    <script>
+        let soal = {
+            IPA: [
+                { pertanyaan: "Apa planet terbesar di tata surya?", pilihan: ["Bumi", "Jupiter", "Mars", "Saturnus"], jawaban: "Jupiter" },
+                { pertanyaan: "Apa nama ilmu yang mempelajari tentang makhluk hidup?", pilihan: ["Biologi", "Fisika", "Kimia", "Matematika"], jawaban: "Biologi" }
+            ],
+            Senirupa: [
+                { pertanyaan: "Apa nama teknik menggambar dengan menggunakan cat air?", pilihan: ["Akuarel", "Oli", "Pastel", "Krayon"], jawaban: "Akuarel" },
+                { pertanyaan: "Siapa nama pelaksana seni rupa yang terkenal dengan karya 'Mona Lisa'?", pilihan: ["Leonardo da Vinci", "Pablo Picasso", "Vincent van Gogh", "Claude Monet"], jawaban: "Leonardo da Vinci" }
+            ],
+            Penjasorkes: [
+                { pertanyaan: "Apa nama olahraga yang menggunakan bola dan raket?", pilihan: ["Sepakbola", "Basket", "Tenis", "Bulu Tangkis"], jawaban: "Tenis" },
+                { pertanyaan: "Apa nama gerakan dalam senam yang dilakukan dengan memutar tubuh?", pilihan: ["Guling", "Kayang", "Handstand", "Somersault"], jawaban: "Guling" }
+            ],
+            Diniyah: [
+                { pertanyaan: "Apa nama kitab suci agama Islam?", pilihan: ["Al-Quran", "Bible", "Torah", "Veda"], jawaban: "Al-Quran" },
+                { pertanyaan: "Siapa nama nabi yang pertama kali menerima wahyu?", pilihan: ["Adam", "Nuh", "Ibrahim", "Muhammad"], jawaban: "Muhammad" }
+            ]
+        };
+
+        let materiSekarang = 'IPA';
+
+        function gantiMateri() {
+            materiSekarang = document.getElementById('materi').value;
+            buatSoal();
+        }
+
+        function buatSoal() {
+            let acak = Math.floor(Math.random() * soal[materiSekarang].length);
+            let s = soal[materiSekarang][acak];
+            document.getElementById('pertanyaan').innerText = s.pertanyaan;
+            let pilihan = '';
+            s.pilihan.forEach(p => {
+                pilihan += `<div class="pilihan" onclick="cekJawaban('${p}', '${s.jawaban}')">${p}</div>`;
+            });
+            document.getElementById('pilihan').innerHTML = pilihan;
+        }
+
+        function cekJawaban(jawab, jawabanBenar) {
+            if (jawab === jawabanBenar) {
+                document.getElementById('hasil').innerText = "Benar! 😈";
+                document.getElementById('hasil').style.color = "#2ed573";
+            } else {
+                document.getElementById('hasil').innerText = "Salah! Jawabannya adalah " + jawabanBenar;
+                document.getElementById('hasil').style.color = "#ff4757";
+            }
+            setTimeout(() => {
+                buatSoal();
+                document.getElementById('hasil').innerText = '';
+            }, 2000);
+        }
+
+        buatSoal();
+    </script>
+</body>
+</html>
